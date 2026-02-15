@@ -112,3 +112,34 @@ npm run dev
 Open:
 
 http://localhost:3000
+
+## Challenges Faced & How They Were Solved
+
+### 1. UI Not Updating Without Refresh
+
+**Problem:**  
+After inserting a new bookmark, the UI did not update automatically and required a manual page refresh.
+
+**Cause:**  
+State was being managed in multiple places. The BookmarkList component had its own local state and data fetching logic, which conflicted with the Dashboard state.
+
+**Solution:**  
+Refactored the architecture so that:
+- The Dashboard component became the single source of truth.
+- BookmarkForm triggered a re-fetch via a callback.
+- BookmarkList became a purely presentational component.
+
+This eliminated duplicate state sources and ensured instant UI updates without page reloads.
+
+---
+
+### 2. Realtime WebSocket Connection Failure
+
+**Problem:**  
+Supabase Realtime WebSocket connection failed in development.
+
+**Cause:**  
+Network-level WebSocket restrictions and environment misconfiguration.
+
+**Solution:**  
+Refactored the application to use controlled state re-fetching instead of relying on realtime subscriptions. This improved reliability and reduced unnecessary complexity.
